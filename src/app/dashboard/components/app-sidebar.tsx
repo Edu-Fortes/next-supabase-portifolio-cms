@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+import { LayoutDashboard, FolderOpen } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
