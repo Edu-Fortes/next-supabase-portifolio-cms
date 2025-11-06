@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+import { LayoutDashboard, FolderOpen } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -8,7 +11,25 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
+
+type SidebarMenuItens = {
+  label: string;
+  href: string;
+  icon: any;
+};
+
+const sidebarMenuItens: SidebarMenuItens[] = [
+  {
+    label: 'Dashboard',
+    href: '#',
+    icon: LayoutDashboard,
+  },
+  {
+    label: 'Projects',
+    href: '#',
+    icon: FolderOpen,
+  },
+];
 
 export function AppSidebar() {
   return (
@@ -18,16 +39,16 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href='#'>Dashboard</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href='#'>Projects</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {sidebarMenuItens.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton asChild>
+                    <Link href='#'>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
