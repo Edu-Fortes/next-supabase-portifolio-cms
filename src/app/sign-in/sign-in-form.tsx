@@ -113,7 +113,7 @@ export function SignInForm() {
         {error && (
           <p className='mb-4 text-sm font-medium text-red-500'>{error}</p>
         )}
-        <Button type='submit' form='signin-form'>
+        <Button type='submit' form='signin-form' disabled={isPending}>
           {isPending ? 'Signing in...' : 'Sign In'}
         </Button>
       </CardFooter>
