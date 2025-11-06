@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { signOut } from './actions';
 
-export default async function AdminPage() {
+export default async function DashboardPage() {
   const supabase = await createClient();
 
   // We can use this to get the user's session
