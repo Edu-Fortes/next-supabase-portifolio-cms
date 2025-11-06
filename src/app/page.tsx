@@ -1,3 +1,4 @@
+import { ThemeModeToggle } from '@/components/ui/theme-mode-toggle';
 import { createClient } from '@/lib/supabase/server';
 import { Project } from '@/types';
 
@@ -29,6 +30,7 @@ export default async function Home() {
           <p>No projects found. (Go to the admin panel to add some!)</p>
         )}
       </div>
+      <ThemeModeToggle />
     </main>
   );
 }
