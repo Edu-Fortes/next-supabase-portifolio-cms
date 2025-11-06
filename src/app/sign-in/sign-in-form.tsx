@@ -1,41 +1,40 @@
-// src/app/login/login-form.tsx
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useState, useTransition } from 'react';
-
-import { loginSchema } from '@/lib/schemas';
-import { signInAction } from './actions'; // Our Server Action
-
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field';
+import { loginSchema } from '@/lib/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import z from 'zod';
+import { signInAction } from './actions';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
-// Define the form's data type from the Zod schema
+// Form's data type from the Zod schema
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function SignInForm() {
-  // 1. Server-side error state
+  // Server-side error state
   const [error, setError] = useState<string | undefined>('');
 
-  // 2. Pending state for the form submission
+  // Pending state for the form submission
   const [isPending, startTransition] = useTransition();
 
-  // 3. React Hook Form setup
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormValues>({
+  // React Hook Form setup
+  const { handleSubmit, control } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
@@ -43,8 +42,7 @@ export function SignInForm() {
     },
   });
 
-  // 4. The 'onSubmit' function, now client-side
-  const onSubmit = (data: LoginFormValues) => {
+  function onSubmit(data: LoginFormValues) {
     setError(undefined); // Clear previous server errors
 
     startTransition(async () => {
@@ -53,53 +51,72 @@ export function SignInForm() {
       if (result?.message) {
         setError(result.message);
       }
-      // No need for a success case, the action redirects
     });
-  };
-
+  }
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader>
-        <CardTitle className='text-2xl'>Admin Login</CardTitle>
+        <CardTitle>Sign In</CardTitle>
         <CardDescription>
-          Enter your email below to log in to your dashboard.
+          Please enter your email and password to sign in.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* 5. Use RHF's handleSubmit */}
-        <form onSubmit={handleSubmit(onSubmit)} className='grid gap-4'>
-          <div className='grid gap-2'>
-            <Label htmlFor='email'>Email</Label>
-            <Input
-              id='email'
-              placeholder='m@example.com'
-              {...register('email')} // 6. Register the input
+        <form id='signin-form' onSubmit={handleSubmit(onSubmit)}>
+          <FieldGroup>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='signin-form-email'>Email</FieldLabel>
+                  <Input
+                    {...field}
+                    id='signin-form-email'
+                    aria-invalid={fieldState.invalid}
+                    placeholder='exemplo@email.com'
+                    autoComplete='off'
+                  />
+
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-            {/* 7. Instant client-side error */}
-            {errors.email && (
-              <p className='text-sm font-medium text-red-500'>
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className='grid gap-2'>
-            <Label htmlFor='password'>Password</Label>
-            <Input id='password' type='password' {...register('password')} />
-            {errors.password && (
-              <p className='text-sm font-medium text-red-500'>
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+            <Controller
+              name='password'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='signin-form-password'>
+                    Password
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id='signin-form-password'
+                    aria-invalid={fieldState.invalid}
+                    placeholder='********'
+                    type='password'
+                  />
 
-          {/* 8. Display server-side error */}
-          {error && <p className='text-sm font-medium text-red-500'>{error}</p>}
-
-          <Button type='submit' className='w-full' disabled={isPending}>
-            {isPending ? 'Logging in...' : 'Login'}
-          </Button>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
         </form>
       </CardContent>
+      <CardFooter className='flex flex-col gap-2'>
+        {error && (
+          <p className='mb-4 text-sm font-medium text-red-500'>{error}</p>
+        )}
+        <Button type='submit' form='signin-form'>
+          {isPending ? 'Signing in...' : 'Sign In'}
+        </Button>
+      </CardFooter>
     </Card>
   );
 }
