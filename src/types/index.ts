@@ -1,4 +1,4 @@
-export type PortifolioProject = {
+export type PortfolioProject = {
   id: number;
   title: string;
   description: string;
