@@ -2,12 +2,10 @@ import { cookies } from 'next/headers';
 
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './components/app-sidebar';
+import AppHeader from './components/app-header';
+import NavMain from './components/nav-main';
 
 export default async function DashboardLayout({
   children,
@@ -16,6 +14,7 @@ export default async function DashboardLayout({
 }) {
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
+
   const supabase = await createClient();
 
   // Get the current user
@@ -30,12 +29,12 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar />
+      <AppSidebar>
+        <NavMain />
+      </AppSidebar>
       <SidebarInset>
-        <main>
-          <SidebarTrigger />
-          {children}
-        </main>
+        <AppHeader />
+        <main>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
