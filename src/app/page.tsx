@@ -1,11 +1,13 @@
 import { ThemeModeToggle } from '@/components/ui/theme-mode-toggle';
 import { createClient } from '@/lib/supabase/server';
-import { Project } from '@/types';
+import { PortifolioProject } from '@/types';
 
 export default async function Home() {
   const supabase = await createClient();
 
-  const { data: projects, error } = await supabase.from('projects').select('*');
+  const { data: portifolioProjects, error } = await supabase
+    .from('portifolio_projects')
+    .select('*');
 
   if (error) console.error('Error fetching data:', error);
 
@@ -17,9 +19,9 @@ export default async function Home() {
         <h2 className='text-2xl font-semibold mb-4'>
           Projects (from Server!):
         </h2>
-        {projects && projects.length > 0 ? (
+        {portifolioProjects && portifolioProjects.length > 0 ? (
           <ul>
-            {projects.map((project: Project) => (
+            {portifolioProjects.map((project: PortifolioProject) => (
               <li key={project.id} className='border p-4 rounded-md mb-2'>
                 <h3 className='text-lg font-bold'>{project.title}</h3>
                 <p>{project.description}</p>
