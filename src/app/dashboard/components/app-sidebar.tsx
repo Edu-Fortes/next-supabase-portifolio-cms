@@ -1,9 +1,20 @@
-import { Sidebar, SidebarContent } from '@/components/ui/sidebar';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+} from '@/components/ui/sidebar';
+import NavMain from './nav-main';
+import { NavUser } from './nav-user';
 
-export function AppSidebar({ children }: { children: React.ReactNode }) {
+export function AppSidebar() {
   return (
     <Sidebar collapsible='icon'>
-      <SidebarContent>{children}</SidebarContent>
+      <SidebarContent>
+        <NavMain />
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   );
 }
