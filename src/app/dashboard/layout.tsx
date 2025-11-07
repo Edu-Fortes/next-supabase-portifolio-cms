@@ -28,9 +28,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar>
-        <NavMain />
-      </AppSidebar>
+      <AppSidebar />
       <SidebarInset>
         <AppHeader />
         <main className='p-6'>{children}</main>
