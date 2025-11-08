@@ -11,16 +11,11 @@ type FormState = {
   type: 'success' | 'error';
 };
 
-type ResetPasswordState = {
-  message: string;
-  type: 'success' | 'error';
-};
-
-const supabase = await createClient();
-
 export async function updateProfile(
   data: z.infer<typeof profileSchema>
 ): Promise<FormState> {
+  const supabase = await createClient();
+
   // 1. Get the current user
   const {
     data: { user },
@@ -52,30 +47,11 @@ export async function updateProfile(
   return { message: 'Profile updated successfully!', type: 'success' };
 }
 
-export async function requestPasswordReset(
-  email: string
-): Promise<ResetPasswordState> {
-  // The callback route will exchange the code for a session, then redirect to update-password
-  const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback?next=/auth/update-password`;
-
-  // Call Supabase password reset function
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: redirectUrl,
-  });
-
-  if (error) {
-    return { message: error.message, type: 'error' };
-  }
-
-  return {
-    message: 'Password reset link has been sent to your email.',
-    type: 'success',
-  };
-}
-
 export async function changeUserPassword(
   data: z.infer<typeof updatePasswordSchema>
 ): Promise<FormState> {
+  const supabase = await createClient();
+
   // Validate data on the server
   const validation = updatePasswordSchema.safeParse(data);
   if (!validation.success) {
