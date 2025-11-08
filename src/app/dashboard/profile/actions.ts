@@ -69,3 +69,31 @@ export async function changeUserPassword(
 
   return { message: 'Password updated successfully!', type: 'success' };
 }
+
+export async function updateAvatarUrl(filePath: string): Promise<FormState> {
+  const supabase = await createClient();
+
+  // 1. Get the current user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { message: 'Not authenticated', type: 'error' };
+  }
+
+  // 2. Update the avatar_url in the profiles table
+  const { error } = await supabase
+    .from('profiles')
+    .update({ avatar_url: filePath })
+    .eq('id', user.id); // IMPORTANT: Only update the current user's row
+
+  if (error) {
+    return { message: error.message, type: 'error' };
+  }
+
+  // 3. Revalidate the path to show new data
+  revalidatePath('/dashboard/profile');
+
+  return { message: 'Avatar URL updated successfully!', type: 'success' };
+}

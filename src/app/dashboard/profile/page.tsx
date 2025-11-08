@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { ProfileForm } from './profile-form';
+import { ProfileForm } from './forms/profile-form';
 import { Tables } from '@/types/supabase';
 import {
   Card,
@@ -9,7 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ChangePasswordForm } from './change-password-form';
+import { ChangePasswordForm } from './forms/change-password-form';
+import { AvatarForm } from './forms/avatar-form';
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -64,6 +65,8 @@ export default async function ProfilePage() {
           <ChangePasswordForm />
         </CardContent>
       </Card>
+
+      <AvatarForm profile={typedProfile} />
     </div>
   );
 }
