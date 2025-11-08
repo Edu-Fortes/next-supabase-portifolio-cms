@@ -11,6 +11,11 @@ type FormState = {
   type: 'success' | 'error';
 };
 
+type ResetPasswordState = {
+  message: string;
+  type: 'success' | 'error';
+};
+
 export async function updateProfile(
   data: z.infer<typeof profileSchema>
 ): Promise<FormState> {
@@ -45,4 +50,27 @@ export async function updateProfile(
   revalidatePath('/dashboard/profile');
 
   return { message: 'Profile updated successfully!', type: 'success' };
+}
+
+export async function requestPasswordReset(
+  email: string
+): Promise<ResetPasswordState> {
+  const supabase = await createClient();
+
+  // Tell Supabase where to redirect the user after theyu click the link in their email
+  const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/update-password`;
+
+  // Call Supabase password reset function
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: redirectUrl,
+  });
+
+  if (error) {
+    return { message: error.message, type: 'error' };
+  }
+
+  return {
+    message: 'Password reset link has been sent to your email.',
+    type: 'success',
+  };
 }

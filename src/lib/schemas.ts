@@ -15,3 +15,7 @@ export const profileSchema = z.object({
     .nullable()
     .optional(),
 });
+
+export const resetPasswordSchema = z.object({
+  email: z.email({ message: 'Invalid email address' }),
+});
