@@ -19,3 +19,15 @@ export const profileSchema = z.object({
 export const resetPasswordSchema = z.object({
   email: z.email({ message: 'Invalid email address' }),
 });
+
+export const updatePasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: 'Password must be at least 6 characters long' }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'], // Set the error on the confirmPassword field
+  });

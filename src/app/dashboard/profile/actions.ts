@@ -57,8 +57,8 @@ export async function requestPasswordReset(
 ): Promise<ResetPasswordState> {
   const supabase = await createClient();
 
-  // Tell Supabase where to redirect the user after theyu click the link in their email
-  const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/update-password`;
+  // The callback route will exchange the code for a session, then redirect to update-password
+  const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback?next=/auth/update-password`;
 
   // Call Supabase password reset function
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
