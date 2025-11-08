@@ -2,6 +2,14 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { ProfileForm } from './profile-form';
 import { Tables } from '@/types/supabase';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { PasswordResetForm } from './password-reset-form';
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -32,9 +40,30 @@ export default async function ProfilePage() {
   const typedProfile = profile as Tables<'profiles'>;
 
   return (
-    <div className='flex flex-col gap-8'>
-      <h2 className='text-2xl font-semibold'>Update Your Profile</h2>
-      <ProfileForm profile={typedProfile} />
+    <div className='grid gap-6'>
+      <Card>
+        <CardHeader>
+          <CardTitle>Public Profile</CardTitle>
+          <CardDescription>
+            This information will be displayed publicly.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ProfileForm profile={typedProfile} />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Security</CardTitle>
+          <CardDescription>
+            Manage your password and account security.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <PasswordResetForm email={user.email || ''} />
+        </CardContent>
+      </Card>
     </div>
   );
 }
