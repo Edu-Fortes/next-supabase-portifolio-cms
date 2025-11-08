@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { PasswordResetForm } from './password-reset-form';
+import { ChangePasswordForm } from './change-password-form';
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -61,7 +61,7 @@ export default async function ProfilePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <PasswordResetForm email={user.email || ''} />
+          <ChangePasswordForm />
         </CardContent>
       </Card>
     </div>
