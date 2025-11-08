@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { useState, useTransition } from 'react';
 
 import { profileSchema } from '@/lib/schemas';
-import { updateProfile } from './actions';
+import { updateProfile } from '../actions';
 import type { Tables } from '@/types/supabase';
 
 import { Button } from '@/components/ui/button';
