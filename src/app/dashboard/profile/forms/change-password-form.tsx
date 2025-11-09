@@ -83,7 +83,7 @@ export function ChangePasswordForm() {
         </p>
       )}
 
-      <Button type='submit' className='w-full' disabled={isPending}>
+      <Button type='submit' className='w-1/3 mt-6' disabled={isPending}>
         {isPending ? 'Updating...' : 'Update Password'}
       </Button>
     </form>

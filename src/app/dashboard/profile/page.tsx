@@ -2,15 +2,9 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { ProfileForm } from './forms/profile-form';
 import { Tables } from '@/types/supabase';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { ChangePasswordForm } from './forms/change-password-form';
 import { AvatarForm } from './forms/avatar-form';
+import { Separator } from '@/components/ui/separator';
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -41,32 +35,28 @@ export default async function ProfilePage() {
   const typedProfile = profile as Tables<'profiles'>;
 
   return (
-    <div className='grid gap-6'>
-      <Card>
-        <CardHeader>
-          <CardTitle>Public Profile</CardTitle>
-          <CardDescription>
-            This information will be displayed publicly.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ProfileForm profile={typedProfile} />
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Security</CardTitle>
-          <CardDescription>
-            Manage your password and account security.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChangePasswordForm />
-        </CardContent>
-      </Card>
-
-      <AvatarForm profile={typedProfile} />
+    <div className='grid grid-cols-3 pl-20 py-20'>
+      <div className='col-span-1'>
+        <h2 className='text-base/7 font-semibold'>Profile</h2>
+        <p className='mt-1 text-sm/6 text-muted-foreground'>
+          This information will be displayed publicly.
+        </p>
+      </div>
+      <div className='col-span-2 space-y-12'>
+        <AvatarForm profile={typedProfile} />
+        <Separator />
+        <ProfileForm profile={typedProfile} />
+      </div>
+      <Separator className='col-span-3 my-24' />
+      <div className='col-span-1'>
+        <h2 className='text-base/7 font-semibold'>Security</h2>
+        <p className='mt-1 text-sm/6 text-muted-foreground'>
+          Change your password..
+        </p>
+      </div>
+      <div className='grid-span-2 mt-8'>
+        <ChangePasswordForm />
+      </div>
     </div>
   );
 }

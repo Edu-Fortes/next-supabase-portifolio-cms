@@ -1,18 +1,20 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client'; // CLIENT client
 import { Tables } from '@/types/supabase';
 import { updateAvatarUrl } from '../actions';
 
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
 
 export function AvatarForm({ profile }: { profile: Tables<'profiles'> }) {
   const supabase = createClient();
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [message, setMessage] = useState<
     { text: string; type: 'success' | 'error' } | undefined
@@ -89,13 +91,8 @@ export function AvatarForm({ profile }: { profile: Tables<'profiles'> }) {
         </div>
 
         {/* File Input */}
-        <Label
-          htmlFor='avatar-upload'
-          className='cursor-pointer text-sm text-primary underline'
-        >
-          {isPending ? 'Uploading...' : 'Upload a new photo'}
-        </Label>
         <Input
+          ref={fileInputRef}
           id='avatar-upload'
           type='file'
           accept='image/*'
@@ -103,6 +100,24 @@ export function AvatarForm({ profile }: { profile: Tables<'profiles'> }) {
           onChange={handleUpload}
           disabled={isPending}
         />
+
+        {/* Upload Button */}
+        <Button
+          type='button'
+          variant='outline'
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isPending}
+          className='ml-6'
+        >
+          {isPending ? (
+            <>
+              <Spinner className='mr-2' />
+              Uploading...
+            </>
+          ) : (
+            'Choose Avatar'
+          )}
+        </Button>
       </div>
 
       {/* Message Area */}
