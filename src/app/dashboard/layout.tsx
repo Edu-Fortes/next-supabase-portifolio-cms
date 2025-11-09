@@ -26,9 +26,16 @@ export default async function DashboardLayout({
     redirect('/sign-in');
   }
 
+  // Get the user's profile
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
+
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar />
+      <AppSidebar user={user} profile={profile} />
       <SidebarInset>
         <AppHeader />
         <main className='p-6'>{children}</main>

@@ -23,8 +23,8 @@ const sidebarMenuItens: SidebarMenuItens[] = [
     icon: LayoutDashboard,
   },
   {
-    label: 'Projects',
-    href: '/dashboard/projects',
+    label: 'Portfolio',
+    href: '/dashboard/portfolio',
     icon: FolderOpen,
   },
 ];
