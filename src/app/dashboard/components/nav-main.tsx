@@ -8,12 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import {
-  LayoutDashboard,
-  FolderOpen,
-  LucideIcon,
-  Settings2,
-} from 'lucide-react';
+import { LayoutDashboard, FolderOpen, LucideIcon } from 'lucide-react';
 
 type SidebarMenuItens = {
   label: string;
