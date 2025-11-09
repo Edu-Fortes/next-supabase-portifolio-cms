@@ -1,11 +1,11 @@
 'use client';
 
 import {
-  BadgeCheck,
   Bell,
   ChevronsUpDown,
   CreditCard,
   LogOut,
+  Settings2,
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -28,6 +28,7 @@ import { signOut } from '../actions';
 import { Tables } from '@/types/supabase';
 import { User } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
+import Link from 'next/link';
 
 export function NavUser({
   user,
@@ -102,10 +103,12 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
+              <Link href='/dashboard/profile'>
+                <DropdownMenuItem>
+                  <Settings2 />
+                  Profile
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <CreditCard />
                 Billing
