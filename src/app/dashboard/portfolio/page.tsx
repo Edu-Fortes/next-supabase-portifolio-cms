@@ -44,7 +44,9 @@ export default async function PortfolioPage() {
         <h2 className='text-2xl font-semibold'>Manage Portfolio</h2>
         {/* 3. Add "Create New" button */}
         <Button asChild>
-          <Link href='/admin/portfolio/new'>Create New Project</Link>
+          <Link href='/dashboard/portfolio/new-project'>
+            Create New Project
+          </Link>
         </Button>
       </div>
 
