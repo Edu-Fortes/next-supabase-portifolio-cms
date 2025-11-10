@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState, useTransition } from 'react';
@@ -8,12 +8,10 @@ import { useRouter } from 'next/navigation';
 import { Tables } from '@/types/supabase';
 
 import { portfolioProjectSchema } from '@/lib/schemas';
-// We'll rename the action on import to avoid a name clash
 import { createPortfolioProject as createProjectAction } from './actions';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea'; // We'll need this
 import {
   Card,
@@ -22,6 +20,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field';
 
 // Define the form's data type
 type ProjectFormValues = z.infer<typeof portfolioProjectSchema>;
@@ -40,11 +44,7 @@ export function PortfolioProjectForm({ project, action }: ProjectFormProps) {
   >();
   const [isPending, startTransition] = useTransition();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ProjectFormValues>({
+  const { control, handleSubmit } = useForm<ProjectFormValues>({
     resolver: zodResolver(portfolioProjectSchema),
     defaultValues: {
       title: project?.title || '',
@@ -76,7 +76,7 @@ export function PortfolioProjectForm({ project, action }: ProjectFormProps) {
   };
 
   return (
-    <Card className='max-w-3xl'>
+    <Card className='w-3xl m-auto'>
       <CardHeader>
         <CardTitle>
           {action === 'create' ? 'Create New Project' : 'Edit Project'}
@@ -86,81 +86,125 @@ export function PortfolioProjectForm({ project, action }: ProjectFormProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className='grid gap-6'>
-          {/* Title */}
-          <div className='grid gap-2'>
-            <Label htmlFor='title'>Title</Label>
-            <Input
-              id='title'
-              placeholder='Project title'
-              {...register('title')}
-            />
-            {errors.title && (
-              <p className='text-sm font-medium text-red-500'>
-                {errors.title.message}
-              </p>
-            )}
-          </div>
+        <form
+          id='portfolio-project-form'
+          onSubmit={handleSubmit(onSubmit)}
+          className='grid gap-6'
+        >
+          <FieldGroup>
+            {/* Title */}
+            <Controller
+              name='title'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='portfolio-project-form-title'>
+                    Title
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id='portfolio-project-form-title'
+                    aria-invalid={fieldState.invalid}
+                    placeholder='Project title'
+                  />
 
-          {/* Description */}
-          <div className='grid gap-2'>
-            <Label htmlFor='description'>Description</Label>
-            <Textarea
-              id='description'
-              placeholder='A short description of your project...'
-              {...register('description')}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-            {errors.description && (
-              <p className='text-sm font-medium text-red-500'>
-                {errors.description.message}
-              </p>
-            )}
-          </div>
+            {/* Description */}
+            <Controller
+              name='description'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='portfolio-project-form-description'>
+                    Description
+                  </FieldLabel>
+                  <Textarea
+                    {...field}
+                    id='portfolio-project-form-description'
+                    aria-invalid={fieldState.invalid}
+                    placeholder='A short description of your project...'
+                  />
 
-          {/* GitHub URL */}
-          <div className='grid gap-2'>
-            <Label htmlFor='github_url'>GitHub URL</Label>
-            <Input
-              id='github_url'
-              placeholder='https://github.com/...'
-              {...register('github_url')}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-            {errors.github_url && (
-              <p className='text-sm font-medium text-red-500'>
-                {errors.github_url.message}
-              </p>
-            )}
-          </div>
+            {/* GitHub URL */}
+            <Controller
+              name='github_url'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='portfolio-project-form-github-url'>
+                    GitHub URL
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id='portfolio-project-form-github-url'
+                    aria-invalid={fieldState.invalid}
+                    placeholder='https://github.com/...'
+                  />
 
-          {/* Live URL */}
-          <div className='grid gap-2'>
-            <Label htmlFor='live_url'>Live URL</Label>
-            <Input
-              id='live_url'
-              placeholder='https://myproject.com'
-              {...register('live_url')}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-            {errors.live_url && (
-              <p className='text-sm font-medium text-red-500'>
-                {errors.live_url.message}
-              </p>
-            )}
-          </div>
 
-          {/* Image URL */}
-          <div className='grid gap-2'>
-            <Label htmlFor='image_url'>Image URL</Label>
-            <Input
-              id='image_url'
-              placeholder='https://.../image.png'
-              {...register('image_url')}
+            {/* Live URL */}
+            <Controller
+              name='live_url'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='portfolio-project-form-live-url'>
+                    Live URL
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id='portfolio-project-form-live-url'
+                    aria-invalid={fieldState.invalid}
+                    placeholder='https://myproject.com'
+                  />
+
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-            {errors.image_url && (
-              <p className='text-sm font-medium text-red-500'>
-                {errors.image_url.message}
-              </p>
-            )}
-          </div>
+
+            {/* Image URL */}
+            <Controller
+              name='image_url'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='portfolio-project-form-image-url'>
+                    Image URL
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id='portfolio-project-form-image-url'
+                    aria-invalid={fieldState.invalid}
+                    placeholder='https://.../image.png'
+                  />
+
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
 
           {/* Server Message */}
           {message && (
