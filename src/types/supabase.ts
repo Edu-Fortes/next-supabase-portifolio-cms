@@ -63,6 +63,7 @@ export type Database = {
       }
       portfolio_projects: {
         Row: {
+          body: string | null
           created_at: string
           description: string | null
           github_url: string | null
@@ -70,8 +71,10 @@ export type Database = {
           image_url: string | null
           live_url: string | null
           title: string
+          updated_at: string
         }
         Insert: {
+          body?: string | null
           created_at?: string
           description?: string | null
           github_url?: string | null
@@ -79,8 +82,10 @@ export type Database = {
           image_url?: string | null
           live_url?: string | null
           title?: string
+          updated_at?: string
         }
         Update: {
+          body?: string | null
           created_at?: string
           description?: string | null
           github_url?: string | null
@@ -88,6 +93,7 @@ export type Database = {
           image_url?: string | null
           live_url?: string | null
           title?: string
+          updated_at?: string
         }
         Relationships: []
       }

@@ -1,4 +1,3 @@
-// src/app/admin/portfolio/page.tsx
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { Tables } from '@/types/supabase';
@@ -25,7 +24,7 @@ export default async function PortfolioPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   // 2. Fetch data
@@ -59,6 +58,8 @@ export default async function PortfolioPage() {
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead>Description</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Last Updated</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -70,7 +71,19 @@ export default async function PortfolioPage() {
                       {project.title}
                     </TableCell>
                     <TableCell>
-                      {project.description?.substring(0, 100)}...
+                      {project.description?.substring(0, 50)}...
+                    </TableCell>
+                    <TableCell>
+                      {new Date(project.created_at).toLocaleDateString(
+                        'pt-BR',
+                        { day: '2-digit', month: 'short', year: 'numeric' }
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(project.updated_at).toLocaleDateString(
+                        'pt-BR',
+                        { day: '2-digit', month: 'short', year: 'numeric' }
+                      )}
                     </TableCell>
                     <TableCell className='text-right'>
                       {/* We will add DropdownMenu for Edit/Delete here */}
