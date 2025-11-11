@@ -1,58 +1,56 @@
 'use server';
 
-import { portfolioProjectSchema } from '@/lib/schemas';
 import { createClient } from '@/lib/supabase/server';
+import { contentSchema } from '@/lib/schemas'; // Use our new schema
+import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { z } from 'zod';
 
 type FormState = {
   message: string;
   type: 'success' | 'error';
 };
 
-export async function createPortfolioProject(
-  data: z.infer<typeof portfolioProjectSchema>
+export async function createContent(
+  data: z.infer<typeof contentSchema>
 ): Promise<FormState> {
   const supabase = await createClient();
 
-  // Get user to make sure they are authenticated
+  // 1. Get user
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) {
-    return {
-      message: 'User not authenticated',
-      type: 'error',
-    };
+    return { message: 'Not authenticated', type: 'error' };
   }
 
-  // Validate data on the server
-  const validation = portfolioProjectSchema.safeParse(data);
-
+  // 2. Validate data
+  const validation = contentSchema.safeParse(data);
   if (!validation.success) {
     return {
-      message: 'Invalid data provided',
+      message: `Invalid data: ${validation.error.message}`,
       type: 'error',
     };
   }
 
-  // Insert the new project into the database
-  const { error } = await supabase.from('portfolio_projects').insert({
+  // 3. Insert into the 'content' table
+  const { error } = await supabase.from('content').insert({
     ...validation.data,
+    author_id: user.id, // Set the author
   });
 
   if (error) {
-    return {
-      message: error.message,
-      type: 'error',
-    };
+    // Handle unique slug constraint error
+    if (error.code === '23505') {
+      return {
+        message: 'This slug is already taken. Please choose a unique one.',
+        type: 'error',
+      };
+    }
+    return { message: error.message, type: 'error' };
   }
 
-  // Revalidate the path to show new data on the list page
-  revalidatePath('/dashboard/portfolio');
-
-  // Redirect back to the list page on success
-  redirect('/dashboard/portfolio');
+  // 4. Revalidate and redirect
+  revalidatePath('/dasboard/content');
+  redirect('/dashboard/content');
 }
