@@ -75,7 +75,7 @@ export function AvatarForm({ profile }: { profile: Tables<'profiles'> }) {
       <h3 className='font-semibold'>Avatar</h3>
       <div className='flex items-center gap-4'>
         {/* Avatar Preview */}
-        <div className='w-20 h-20 rounded-full bg-muted flex items-center justify-center overflow-hidden'>
+        <div className='w-20 h-20 rounded-lg bg-muted flex items-center justify-center overflow-hidden'>
           {displayUrl ? (
             <Image
               src={displayUrl}
