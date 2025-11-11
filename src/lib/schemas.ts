@@ -37,6 +37,7 @@ export const portfolioProjectSchema = z.object({
     .string()
     .min(3, { error: 'Title must be at least 3 characters long' }),
   description: z.string().optional(),
+  body: z.string().optional(),
   github_url: z
     .url({ error: 'Must be a valid GitHub URL' })
     .optional()
