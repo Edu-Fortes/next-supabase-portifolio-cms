@@ -7,9 +7,6 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Tables } from '@/types/supabase';
 
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css';
-
 import { portfolioProjectSchema } from '@/lib/schemas';
 import { createPortfolioProject as createProjectAction } from './actions';
 

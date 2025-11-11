@@ -10,7 +10,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import { LayoutDashboard, FolderOpen, LucideIcon } from 'lucide-react';
+import { LayoutDashboard, LucideIcon, TableOfContents } from 'lucide-react';
 
 type SidebarMenuItens = {
   label: string;
@@ -26,12 +26,12 @@ const sidebarMenuItens: SidebarMenuItens[] = [
     icon: LayoutDashboard,
   },
   {
-    label: 'Portfolio',
-    icon: FolderOpen,
-    href: '/dashboard/portfolio',
+    label: 'Content',
+    icon: TableOfContents,
+    href: '/dashboard/content',
     items: [
-      { title: 'All projects', url: '/dashboard/portfolio' },
-      { title: 'Create new', url: '/dashboard/portfolio/new-project' },
+      { title: 'All projects', url: '/dashboard/content' },
+      { title: 'Create new', url: '/dashboard/content/new-project' },
     ],
   },
 ];
