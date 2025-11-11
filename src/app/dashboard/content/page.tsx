@@ -42,7 +42,7 @@ export default async function ContentPage() {
       <div className='flex items-center justify-between'>
         <h2 className='text-2xl font-semibold'>Manage Content</h2>
         <Button asChild>
-          <Link href='/dashboard/content/new'>Create New Content</Link>
+          <Link href='/dashboard/content/new-content'>Create New Content</Link>
         </Button>
       </div>
 
