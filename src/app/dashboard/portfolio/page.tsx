@@ -93,7 +93,7 @@ export default async function PortfolioPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={3} className='text-center'>
+                  <TableCell colSpan={5} className='text-center'>
                     No projects found.
                   </TableCell>
                 </TableRow>

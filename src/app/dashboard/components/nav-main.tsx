@@ -28,7 +28,7 @@ const sidebarMenuItens: SidebarMenuItens[] = [
   {
     label: 'Portfolio',
     icon: FolderOpen,
-    href: '#',
+    href: '/dashboard/portfolio',
     items: [
       { title: 'All projects', url: '/dashboard/portfolio' },
       { title: 'Create new', url: '/dashboard/portfolio/new-project' },
