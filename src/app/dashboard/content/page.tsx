@@ -14,11 +14,11 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge'; // We'll add this
 
-export default async function PortfolioPage() {
+export default async function ContentPage() {
   const supabase = await createClient();
 
-  // 1. Check for user
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -27,66 +27,72 @@ export default async function PortfolioPage() {
     redirect('/sign-in');
   }
 
-  // 2. Fetch data
-  const { data: projects, error } = await supabase
-    .from('portfolio_projects')
+  // Fetch from 'content' table
+  const { data: content, error } = await supabase
+    .from('content')
     .select('*')
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching projects:', error);
+    console.error('Error fetching content:', error);
   }
 
   return (
     <div className='flex flex-col gap-8'>
       <div className='flex items-center justify-between'>
-        <h2 className='text-2xl font-semibold'>Manage Portfolio</h2>
-        {/* 3. Add "Create New" button */}
+        <h2 className='text-2xl font-semibold'>Manage Content</h2>
         <Button asChild>
-          <Link href='/dashboard/portfolio/new-project'>
-            Create New Project
-          </Link>
+          <Link href='/dashboard/content/new'>Create New Content</Link>
         </Button>
       </div>
 
-      {/* 4. Display data in a Table */}
       <Card>
         <CardContent>
           <Table>
-            <TableCaption>A list of your portfolio projects.</TableCaption>
+            <TableCaption>A list of your projects and articles.</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
-                <TableHead>Description</TableHead>
+                <TableHead>Type</TableHead>
                 <TableHead>Created</TableHead>
                 <TableHead>Last Updated</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {projects && projects.length > 0 ? (
-                projects.map((project: Tables<'portfolio_projects'>) => (
-                  <TableRow key={project.id}>
-                    <TableCell className='font-medium'>
-                      {project.title}
+              {content && content.length > 0 ? (
+                content.map((item: Tables<'content'>) => (
+                  <TableRow key={item.id}>
+                    <TableCell className='font-medium'>{item.title}</TableCell>
+
+                    {/* Display the type as a Badge */}
+                    <TableCell>
+                      <Badge
+                        variant={
+                          item.content_type === 'PROJECT'
+                            ? 'default'
+                            : 'secondary'
+                        }
+                      >
+                        {item.content_type}
+                      </Badge>
+                    </TableCell>
+
+                    <TableCell>
+                      {new Date(item.created_at).toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
                     </TableCell>
                     <TableCell>
-                      {project.description?.substring(0, 50)}...
-                    </TableCell>
-                    <TableCell>
-                      {new Date(project.created_at).toLocaleDateString(
-                        'pt-BR',
-                        { day: '2-digit', month: 'short', year: 'numeric' }
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {new Date(project.updated_at).toLocaleDateString(
-                        'pt-BR',
-                        { day: '2-digit', month: 'short', year: 'numeric' }
-                      )}
+                      {new Date(item.updated_at).toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
                     </TableCell>
                     <TableCell className='text-right'>
-                      {/* We will add DropdownMenu for Edit/Delete here */}
                       <span>...</span>
                     </TableCell>
                   </TableRow>
@@ -94,7 +100,7 @@ export default async function PortfolioPage() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={5} className='text-center'>
-                    No projects found.
+                    No content found.
                   </TableCell>
                 </TableRow>
               )}
