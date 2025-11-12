@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, Controller } from 'react-hook-form'; // Import Controller
+import { useForm, Controller, useWatch } from 'react-hook-form'; // Import Controller
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState, useTransition } from 'react';
@@ -59,7 +59,6 @@ export function ContentForm({ content, action }: ContentFormProps) {
     register,
     handleSubmit,
     control, // Get control for MDXEditor and RadioGroup
-    watch, // Get watch to see content_type
     formState: { errors },
   } = useForm<ContentFormValues>({
     resolver: zodResolver(contentSchema),
@@ -77,7 +76,10 @@ export function ContentForm({ content, action }: ContentFormProps) {
   });
 
   // Watch the content_type field to conditionally show fields
-  const contentType = watch('content_type');
+  const contentType = useWatch({
+    control,
+    name: 'content_type',
+  });
 
   const onSubmit = (data: ContentFormValues) => {
     setMessage(undefined);
