@@ -44,6 +44,7 @@ export function ContentForm({ content, action }: ContentFormProps) {
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<ContentFormValues>({
     resolver: zodResolver(contentSchema),
@@ -98,7 +99,11 @@ export function ContentForm({ content, action }: ContentFormProps) {
             <ContentTypeSelector control={control} />
 
             {/* Title, Slug, Description */}
-            <ContentMetadataFields control={control} errors={errors} />
+            <ContentMetadataFields
+              control={control}
+              errors={errors}
+              setValue={setValue}
+            />
 
             {/* Conditional Project Fields */}
             {contentType === 'PROJECT' && (
