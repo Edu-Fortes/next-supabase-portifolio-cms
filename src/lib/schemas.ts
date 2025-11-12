@@ -31,3 +31,23 @@ export const updatePasswordSchema = z
     message: 'Passwords do not match',
     path: ['confirmPassword'], // Set the error on the confirmPassword field
   });
+
+export const portfolioProjectSchema = z.object({
+  title: z
+    .string()
+    .min(3, { error: 'Title must be at least 3 characters long' }),
+  description: z.string().optional(),
+  body: z.string().optional(),
+  github_url: z
+    .url({ error: 'Must be a valid GitHub URL' })
+    .optional()
+    .or(z.literal('')),
+  live_url: z
+    .url({ error: 'Must be a valid Live URL' })
+    .optional()
+    .or(z.literal('')),
+  image_url: z
+    .url({ error: 'Must be a valid Image URL' })
+    .optional()
+    .or(z.literal('')),
+});
