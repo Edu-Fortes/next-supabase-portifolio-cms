@@ -30,8 +30,8 @@ const sidebarMenuItens: SidebarMenuItens[] = [
     icon: TableOfContents,
     href: '/dashboard/content',
     items: [
-      { title: 'All projects', url: '/dashboard/content' },
-      { title: 'Create new', url: '/dashboard/content/new-project' },
+      { title: 'All Contents', url: '/dashboard/content' },
+      { title: 'Create new', url: '/dashboard/content/new-content' },
     ],
   },
 ];
