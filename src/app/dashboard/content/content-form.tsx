@@ -8,7 +8,10 @@ import { useRouter } from 'next/navigation';
 import { Tables } from '@/types/supabase';
 
 import { contentSchema } from '@/lib/schemas';
-import { createContent as createContentAction } from './actions';
+import {
+  createContent as createContentAction,
+  updateContent as updateContentAction,
+} from './actions';
 
 // Import shadcn/ui components
 import { Card, CardContent } from '@/components/ui/card';
@@ -74,8 +77,8 @@ export function ContentForm({ content, action }: ContentFormProps) {
       if (action === 'create') {
         result = await createContentAction(data);
       } else {
-        // We will build this later
-        // result = await updateContentAction(content!.id, data)
+        if (!content) return; // Should never happen
+        result = await updateContentAction(content.id, data);
       }
       if (result?.message) {
         setMessage({ text: result.message, type: result.type });
