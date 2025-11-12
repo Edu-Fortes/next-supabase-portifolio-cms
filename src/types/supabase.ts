@@ -34,68 +34,58 @@ export type Database = {
   }
   public: {
     Tables: {
-      blog_posts: {
+      content: {
         Row: {
+          author_id: string | null
           body: string | null
-          created_at: string
-          id: number
-          is_draft: boolean
-          slug: string
-          title: string
-        }
-        Insert: {
-          body?: string | null
-          created_at?: string
-          id?: number
-          is_draft?: boolean
-          slug?: string
-          title?: string
-        }
-        Update: {
-          body?: string | null
-          created_at?: string
-          id?: number
-          is_draft?: boolean
-          slug?: string
-          title?: string
-        }
-        Relationships: []
-      }
-      portfolio_projects: {
-        Row: {
-          body: string | null
+          content_type: string
           created_at: string
           description: string | null
           github_url: string | null
           id: number
           image_url: string | null
           live_url: string | null
+          slug: string
           title: string
           updated_at: string
         }
         Insert: {
+          author_id?: string | null
           body?: string | null
+          content_type: string
           created_at?: string
           description?: string | null
           github_url?: string | null
           id?: number
           image_url?: string | null
           live_url?: string | null
-          title?: string
+          slug: string
+          title: string
           updated_at?: string
         }
         Update: {
+          author_id?: string | null
           body?: string | null
+          content_type?: string
           created_at?: string
           description?: string | null
           github_url?: string | null
           id?: number
           image_url?: string | null
           live_url?: string | null
+          slug?: string
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "content_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {

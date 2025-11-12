@@ -6,7 +6,7 @@ export default async function Home() {
   const supabase = await createClient();
 
   const { data: portfolioProjects, error } = await supabase
-    .from('portfolio_projects')
+    .from('content')
     .select('*');
 
   if (error) console.error('Error fetching data:', error);
