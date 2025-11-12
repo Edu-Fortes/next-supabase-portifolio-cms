@@ -3,42 +3,27 @@
 import { useForm, Controller, useWatch } from 'react-hook-form'; // Import Controller
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Tables } from '@/types/supabase';
 
 import { contentSchema } from '@/lib/schemas'; // Use new schema
 import { createContent as createContentAction } from './actions'; // Use new action
 
-// Define FormState type locally
-type FormState = {
-  message: string;
-  type: 'success' | 'error';
-};
-
-// Import the new MDX Editor and its plugins/styles
-import {
-  MDXEditor,
-  headingsPlugin,
-  listsPlugin,
-  quotePlugin,
-  thematicBreakPlugin,
-} from '@mdxeditor/editor';
-import '@mdxeditor/editor/style.css';
-
 // Import shadcn/ui components
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { ForwardRefEditor } from './components/forward-ref-editor';
+import { MDXEditorMethods } from '@mdxeditor/editor';
+
+type FormState = {
+  message: string;
+  type: 'success' | 'error';
+};
 
 // Define the form's data type
 type ContentFormValues = z.infer<typeof contentSchema>;
@@ -54,6 +39,7 @@ export function ContentForm({ content, action }: ContentFormProps) {
     { text: string; type: 'success' | 'error' } | undefined
   >();
   const [isPending, startTransition] = useTransition();
+  const editorRef = useRef<MDXEditorMethods>(null);
 
   const {
     register,
@@ -98,17 +84,7 @@ export function ContentForm({ content, action }: ContentFormProps) {
   };
 
   return (
-    <Card className='max-w-4xl'>
-      {' '}
-      {/* Made it wider */}
-      <CardHeader>
-        <CardTitle>
-          {action === 'create' ? 'Create New Content' : 'Edit Content'}
-        </CardTitle>
-        <CardDescription>
-          Fill out the details for your new project or article.
-        </CardDescription>
-      </CardHeader>
+    <Card className='w-full'>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className='grid gap-6'>
           {/* Content Type */}
@@ -217,17 +193,13 @@ export function ContentForm({ content, action }: ContentFormProps) {
               name='body'
               control={control}
               render={({ field }) => (
-                <MDXEditor
-                  markdown={field.value || ''}
-                  onChange={field.onChange}
-                  plugins={[
-                    headingsPlugin(),
-                    listsPlugin(),
-                    quotePlugin(),
-                    thematicBreakPlugin(),
-                  ]}
-                  className='min-h-96 border rounded-md'
-                />
+                <div className='border rounded-md min-h-[400px]'>
+                  <ForwardRefEditor
+                    markdown={field.value ?? ''}
+                    onChange={field.onChange}
+                    ref={editorRef}
+                  />
+                </div>
               )}
             />
             {errors.body && (
