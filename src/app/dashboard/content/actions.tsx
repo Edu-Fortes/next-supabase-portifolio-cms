@@ -98,3 +98,30 @@ export async function updateContent(
   revalidatePath(`/dashboard/content/${id}/edit`); // Revalidate the edit page
   redirect('/dashboard/content');
 }
+
+export async function deleteContent(id: number): Promise<FormState> {
+  const supabase = await createClient();
+
+  // 1. Get user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { message: 'Not authenticated', type: 'error' };
+  }
+
+  // 2. Delete the content from the database
+  const { error } = await supabase
+    .from('content')
+    .delete()
+    .eq('id', id) // Specify which row to delete
+    .eq('author_id', user.id); // Ensure user can only delete their own content
+
+  if (error) {
+    return { message: error.message, type: 'error' };
+  }
+
+  // 3. Revalidate the path
+  revalidatePath('/dashboard/content');
+  return { message: 'Content deleted', type: 'success' };
+}
