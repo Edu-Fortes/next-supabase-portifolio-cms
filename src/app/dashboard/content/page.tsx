@@ -93,7 +93,13 @@ export default async function ContentPage() {
                       })}
                     </TableCell>
                     <TableCell className='text-right'>
-                      <span>...</span>
+                      <Button asChild variant='outline' size='sm'>
+                        <Link
+                          href={`/dashboard/content/${item.id}/edit-content`}
+                        >
+                          Edit
+                        </Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))
