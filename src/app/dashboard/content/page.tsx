@@ -1,7 +1,8 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import { Tables } from '@/types/supabase';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+import { Tables } from '@/types/supabase';
+import { ContentActions } from './components/content-actions';
 
 import {
   Table,
@@ -14,8 +15,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge'; // We'll add this
-
+import { Badge } from '@/components/ui/badge';
 export default async function ContentPage() {
   const supabase = await createClient();
 
@@ -93,13 +93,7 @@ export default async function ContentPage() {
                       })}
                     </TableCell>
                     <TableCell className='text-right'>
-                      <Button asChild variant='outline' size='sm'>
-                        <Link
-                          href={`/dashboard/content/${item.id}/edit-content`}
-                        >
-                          Edit
-                        </Link>
-                      </Button>
+                      <ContentActions contentId={item.id} />
                     </TableCell>
                   </TableRow>
                 ))
