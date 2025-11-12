@@ -12,7 +12,7 @@ interface ProjectFieldsProps {
 
 export function ProjectFields({ control, errors }: ProjectFieldsProps) {
   return (
-    <div className='grid grid-cols-2 gap-4'>
+    <div className='grid gap-8'>
       <div className='grid gap-2'>
         <Label htmlFor='github_url'>GitHub URL</Label>
         <Controller

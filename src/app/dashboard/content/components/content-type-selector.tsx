@@ -11,7 +11,7 @@ interface ContentTypeSelectorProps {
 
 export function ContentTypeSelector({ control }: ContentTypeSelectorProps) {
   return (
-    <div className='grid gap-2'>
+    <div className='grid gap-4'>
       <Label>Content Type</Label>
       <Controller
         name='content_type'
