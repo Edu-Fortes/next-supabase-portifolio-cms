@@ -4,12 +4,12 @@ import { MDXRemote } from 'next-mdx-remote/rsc'; // Import the RSC version
 import Link from 'next/link';
 
 // 1. Import custom component
-import { Carousel } from '@/components/mdx/carousel';
+import { MDXCarousel } from '@/components/mdx/carousel';
 import { Button } from '@/components/ui/button';
 
 // 2. Define the list of components MDX can use
 const components = {
-  Carousel, // When MDX sees <Carousel />, it will use custom component
+  MDXCarousel, // When MDX sees <Carousel />, it will use custom component
   // Add more here later, like:
   // img: (props) => <Image alt={props.alt} {...props} />,
   // h2: (props) => <h2 className="text-2xl font-bold" {...props} />,
