@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { updatePasswordSchema } from '@/lib/schemas';
@@ -22,7 +22,7 @@ import {
 
 type UpdatePasswordFormValues = z.infer<typeof updatePasswordSchema>;
 
-export default function UpdatePasswordPage() {
+function UpdatePasswordForm() {
   const router = useRouter();
   const supabase = createClient();
   const searchParams = useSearchParams();
@@ -139,5 +139,23 @@ export default function UpdatePasswordPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function UpdatePasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className='flex min-h-screen flex-col items-center justify-center p-24'>
+          <Card className='w-full max-w-sm'>
+            <CardHeader>
+              <CardTitle>Loading...</CardTitle>
+            </CardHeader>
+          </Card>
+        </div>
+      }
+    >
+      <UpdatePasswordForm />
+    </Suspense>
   );
 }
