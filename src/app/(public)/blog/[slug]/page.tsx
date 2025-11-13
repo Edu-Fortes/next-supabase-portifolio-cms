@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 // Re-use the same component list from the portfolio
-import { Carousel } from '@/components/mdx/carousel';
+import { MDXCarousel } from '@/components/mdx/carousel';
 
 // Define the list of components MDX can use
 const components = {
-  Carousel,
+  MDXCarousel,
   // Add any other custom components to use in blog posts
 };
 
