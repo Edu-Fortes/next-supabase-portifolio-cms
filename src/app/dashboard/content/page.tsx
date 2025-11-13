@@ -53,6 +53,7 @@ export default async function ContentPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
+                <TableHead>Description</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Created</TableHead>
                 <TableHead>Last Updated</TableHead>
@@ -64,6 +65,9 @@ export default async function ContentPage() {
                 content.map((item: Tables<'content'>) => (
                   <TableRow key={item.id}>
                     <TableCell className='font-medium'>{item.title}</TableCell>
+                    <TableCell className='font-medium'>
+                      {item.description}
+                    </TableCell>
 
                     {/* Display the type as a Badge */}
                     <TableCell>
