@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Settings2,
-} from 'lucide-react';
+import { Bell, ChevronsUpDown, House, LogOut, Settings2 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -109,10 +103,12 @@ export function NavUser({
                   Profile
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
+              <Link href='/'>
+                <DropdownMenuItem>
+                  <House />
+                  Home Page
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <Bell />
                 Notifications
