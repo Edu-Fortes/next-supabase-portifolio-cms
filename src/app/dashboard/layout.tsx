@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './components/app-sidebar';
 import AppHeader from './components/app-header';
+import { Toaster } from '@/components/ui/sonner';
 
 export default async function DashboardLayout({
   children,
@@ -39,6 +40,7 @@ export default async function DashboardLayout({
       <SidebarInset>
         <AppHeader />
         <main className='p-6'>{children}</main>
+        <Toaster />
       </SidebarInset>
     </SidebarProvider>
   );

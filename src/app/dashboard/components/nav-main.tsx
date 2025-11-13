@@ -29,10 +29,6 @@ const sidebarMenuItens: SidebarMenuItens[] = [
     label: 'Content',
     icon: TableOfContents,
     href: '/dashboard/content',
-    items: [
-      { title: 'All Contents', url: '/dashboard/content' },
-      { title: 'Create new', url: '/dashboard/content/new-content' },
-    ],
   },
 ];
 
