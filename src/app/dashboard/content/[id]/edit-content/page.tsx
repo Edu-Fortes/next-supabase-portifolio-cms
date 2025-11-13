@@ -34,6 +34,14 @@ export default async function EditContentPage({
     redirect('/dashboard/content'); // If not found, go back to the list
   }
 
-  // 2. Render our existing form, passing the data into it
-  return <ContentForm action='update' content={content as Tables<'content'>} />;
+  // 2. Render existing form, passing the data into it
+  return (
+    <div>
+      <h2 className='font-semibold'>Edit Content</h2>
+      <p className='text-sm text-muted-foreground'>
+        Edit the fields to update your portfolio project or blog post.
+      </p>
+      <ContentForm action='update' content={content as Tables<'content'>} />
+    </div>
+  );
 }
