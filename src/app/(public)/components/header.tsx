@@ -5,7 +5,7 @@ export default function Header() {
     <header className='border-b'>
       <nav className='container mx-auto max-w-5xl p-4 flex justify-between items-center'>
         <Link href='/' className='font-bold text-lg'>
-          My Name
+          Edu-Fortes Dev
         </Link>
         <div className='flex gap-6'>
           <Link
