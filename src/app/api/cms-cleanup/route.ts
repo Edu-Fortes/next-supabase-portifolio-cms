@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic'; // Ensures this route is not cached
 
 // 1. IMPORTANT: Paste your live test user's ID here
-const TEST_USER_ID = 'YOUR_TEST_USER_ID_HERE';
+const TEST_USER_ID = process.env.TEST_USER_ID!;
 
 export async function POST(request: Request) {
   // 2. Check for the secret key
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       .from('content')
       .delete()
       .eq('author_id', TEST_USER_ID) // Only the test user's content
-      .lt('created_at', `(now() - interval '72 hours')`); // Only if older than 72 hours
+      .lt('created_at', `(now() - interval '12 hours')`); // Only if older than 72 hours (set to 12 for testing)
 
     if (error) throw error;
     return NextResponse.json({ message: 'Old test user content cleaned' });
