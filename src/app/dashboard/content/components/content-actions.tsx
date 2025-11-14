@@ -30,12 +30,24 @@ import { Spinner } from '@/components/ui/spinner';
 
 interface ContentActionsProps {
   contentId: number;
+  authorId: string | null;
+  currentUserId: string;
 }
 
-export function ContentActions({ contentId }: ContentActionsProps) {
+export function ContentActions({
+  contentId,
+  authorId,
+  currentUserId,
+}: ContentActionsProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  const isOwner = authorId === currentUserId;
+
+  if (!authorId) {
+    return null; // Do not render actions if the user is not the owner
+  }
 
   const handleDelete = () => {
     setIsAlertOpen(true);
@@ -71,14 +83,20 @@ export function ContentActions({ contentId }: ContentActionsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem asChild>
-            <Link href={`/dashboard/content/${contentId}/edit-content`}>
+          <DropdownMenuItem asChild disabled={!isOwner}>
+            <Link
+              href={`/dashboard/content/${contentId}/edit-content`}
+              className={
+                !isOwner ? 'pointer-events-none text-muted-foreground' : ''
+              }
+            >
               Edit
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={handleDelete}
+            disabled={!isOwner || isPending}
             className='text-red-500 focus:text-red-500'
           >
             Delete
