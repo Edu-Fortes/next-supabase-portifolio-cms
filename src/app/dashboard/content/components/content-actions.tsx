@@ -30,7 +30,7 @@ import { Spinner } from '@/components/ui/spinner';
 
 interface ContentActionsProps {
   contentId: number;
-  authorId: string;
+  authorId: string | null;
   currentUserId: string;
 }
 
@@ -44,6 +44,10 @@ export function ContentActions({
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const isOwner = authorId === currentUserId;
+
+  if (!authorId) {
+    return null; // Do not render actions if the user is not the owner
+  }
 
   const handleDelete = () => {
     setIsAlertOpen(true);
