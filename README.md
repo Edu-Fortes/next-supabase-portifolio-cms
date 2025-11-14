@@ -10,11 +10,13 @@ This project is a complete, production-ready solution for developers to build th
 
 The entire system is built on a unified content table, allowing you to manage both project case studies and blog articles from a single interface.
 
-➡️ [CMS View Live](https://cms-showcase.edufortes.dev/dashboard)
+To use this as a template, fork or clone this repository (the main branch) and follow the 'Getting Started' guide.
+
+➡️ [CMS View Live](https://live-cms.edufortes.dev)
 
 ## 🚀 Live Demo
 
-You can test-drive the live admin panel here: https://cms-showcase.edufortes.dev/dashboard
+You can [test-drive the live admin panel](https://live-cms.edufortes.dev)
 
 To log in and test the CMS, please use the public test user account:
 
@@ -22,7 +24,8 @@ To log in and test the CMS, please use the public test user account:
 
 **Password:** `magic123`
 
-> [!CAUTION] > **Please Note:**
+> [!CAUTION]
+> **Please Note:**
 >
 > - **This is a public sandbox:** To keep it clean for all users, a script runs **every 72 hours** to reset the demo account's password back to `magic123` and clear all test content. If the password does not work at first, use the button for an instant reset of it.
 >
