@@ -83,16 +83,16 @@ export default async function ContentPage() {
                     </TableCell>
 
                     <TableCell>
-                      {new Date(item.created_at).toLocaleDateString('pt-BR', {
+                      {new Date(item.created_at).toLocaleDateString('en', {
                         day: '2-digit',
-                        month: 'short',
+                        month: 'long',
                         year: 'numeric',
                       })}
                     </TableCell>
                     <TableCell>
-                      {new Date(item.updated_at).toLocaleDateString('pt-BR', {
+                      {new Date(item.updated_at).toLocaleDateString('en', {
                         day: '2-digit',
-                        month: 'short',
+                        month: 'long',
                         year: 'numeric',
                       })}
                     </TableCell>

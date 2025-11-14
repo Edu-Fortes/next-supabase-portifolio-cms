@@ -40,7 +40,7 @@ function ArticleCard({ article }: { article: Tables<'content'> }) {
           <Link href={`/blog/${article.slug}`}>Read More</Link>
         </Button>
         <span className='text-sm text-muted-foreground'>
-          {new Date(article.created_at).toLocaleDateString('pt-BR', {
+          {new Date(article.created_at).toLocaleDateString('en', {
             day: '2-digit',
             month: 'long',
             year: 'numeric',
