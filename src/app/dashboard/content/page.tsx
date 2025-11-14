@@ -97,7 +97,11 @@ export default async function ContentPage() {
                       })}
                     </TableCell>
                     <TableCell className='text-right'>
-                      <ContentActions contentId={item.id} />
+                      <ContentActions
+                        contentId={item.id}
+                        authorId={item.author_id}
+                        currentUserId={user.id}
+                      />
                     </TableCell>
                   </TableRow>
                 ))
