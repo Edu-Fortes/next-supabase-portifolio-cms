@@ -3,12 +3,14 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // Ensures this route is not cached
 
-// 1. IMPORTANT: Paste your live test user's ID here
+// 1. IMPORTANT: Set Test User ID on environment variables
 const TEST_USER_ID = process.env.TEST_USER_ID!;
 
 export async function POST(request: Request) {
-  // 2. Check for the secret key
+  // Check for Vercel Cron secret OR manual authorization
   const authHeader = request.headers.get('authorization');
+
+  // Vercel Cron sends this header automatically
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response('Unauthorized', { status: 401 });
   }
